@@ -1,38 +1,42 @@
-<template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
+<template lang="pug">
+  v-app
+    app-navbar(
+      @addPlayersToggle="addPlayers=!addPlayers"
+      @not="not")
+    v-content
+      router-view(:editTeams="editTeams", :addPlayers="addPlayers")
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Navbar from './components/Navbar'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    'appNavbar': Navbar
   },
   data () {
     return {
-      //
+      editTeams: false,
+      addPlayers: true
+    }
+  },
+  methods: {
+    not () {
+      alert('I said not!!')
     }
   }
 }
 </script>
+<style lang="scss">
+.v-icon.small {
+  font-size: 1em;
+}
+.v-list__tile__title{
+  overflow: visible;
+}
+.flex-center{
+  align-items: center;
+}
+</style>
