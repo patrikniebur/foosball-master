@@ -8,7 +8,7 @@
             v-list-tile-title
               b {{ team.name }}
               //- template(v-for="(player, playerId) in teamsData[teamId].players")
-              //-   span.mx-2 {{ player.name }}
+              small.mx-2 {{ teamNames(teamId) }}
               input.score(type="number" min="0" max="10" :value="matchData.teamsScores[teamId]" @input="score[teamId] = parseInt($event.target.value)" :disabled="matchData.finished")
         v-list-tile(v-if="!matchData.finished")
           v-list-tile-content.flex-center
@@ -30,19 +30,21 @@ export default {
     },
     matchData () {
       return this.$store.state.tournamentRounds[this.roundId][this.matchId]
+    },
+    // Hmm .. this does not work .. but how the hell would I get those two names into one string to put them into the title of <b>TeamName</b> ???...
+    teamNames () {
+      return (teamId) => {
+        const names = []
+        this.teamsData[teamId].players.forEach(player => names.push(player.name))
+
+        return names.join(' ')
+      }
     }
   },
   methods: {
     finishMatch () {
       this.$emit('finishMatch', { roundId: this.roundId, matchId: this.matchId, score: this.score })
     }
-    // Hmm .. this does not work .. but how the hell would I get those two names into one string to put them into the title of <b>TeamName</b> ???...
-    // teamNames (teamId) {
-    //   const names = []
-    //   this.teamsData[teamId].players.forEach(player => names.push(player.name))
-
-    //   return names.join(' ')
-    // }
   }
 
 }
